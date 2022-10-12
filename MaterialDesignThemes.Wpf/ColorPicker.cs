@@ -152,6 +152,9 @@ namespace MaterialDesignThemes.Wpf
 
         private void SaturationBrightnessCanvasMouseMove(object sender, MouseEventArgs e)
         {
+            if (Mouse.Captured is null || Mouse.Captured != _saturationBrightnessThumb)
+                return;
+
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 var position = e.GetPosition(_saturationBrightnessCanvas);
@@ -174,11 +177,8 @@ namespace MaterialDesignThemes.Wpf
 
         private void SaturationBrightnessThumbDragDelta(object sender, DragDeltaEventArgs e)
         {
-            var thumb = (UIElement)e.Source;
-
-            var left = Canvas.GetLeft(thumb) + e.HorizontalChange;
-            var top = Canvas.GetTop(thumb) + e.VerticalChange;
-            ApplyThumbPosition(left, top);
+            var position = Mouse.GetPosition(_saturationBrightnessCanvas);
+            ApplyThumbPosition(position.X, position.Y);
         }
 
         private void ApplyThumbPosition(double left, double top)
